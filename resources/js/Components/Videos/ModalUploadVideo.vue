@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import {toType} from "bootstrap/js/src/util/index.js";
 import { useToast } from 'vue-toast-notification';
 
 export default {
@@ -94,7 +93,6 @@ export default {
                 formData.append('file', this.file);
                 axios.post('/api/upload-video', formData, {headers})
                     .then(r => {
-                        console.log(r.data);
                         this.toast.success('Загрузка видео начата.');
                         this.closeModal();
                     })

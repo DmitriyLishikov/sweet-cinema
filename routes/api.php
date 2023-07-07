@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/videos', \App\Services\GetVideos::class);
 Route::post('/upload-video', \App\Actions\UploadVideo::class);
+Route::post('/delete-video', \App\Http\Controllers\VideoDelete::class);

@@ -1,6 +1,7 @@
 <script>
 import ModalUploadVideo from "@/Components/Videos/ModalUploadVideo.vue";
 import Pagination from "@/Components/Pagination.vue";
+import { useToast } from 'vue-toast-notification';
 
 export default {
     name: 'main-page',
@@ -12,6 +13,7 @@ export default {
         videos: [],
         response: [],
         showModal: false,
+        toast: useToast(),
     }),
     computed:{
         hasVideos(){
@@ -44,6 +46,16 @@ export default {
         // },
         roundUp(duration){
             return (duration % 1) === 0 ? duration.toFixed(0) : duration.toFixed(2);
+        },
+        deleteVideo(id){
+            const formData = new FormData();
+            formData.append('id',id);
+            axios.post('/api/delete-video', formData).then(response => {
+                this.toast.success('Видео удалено.');
+            })
+                .catch(e => {
+                    this.$toast.error('Произошла ошибка');
+                });
         }
     },
 }
@@ -93,7 +105,7 @@ export default {
                         </td>
                         <td>{{ roundUp(Number(video.settings.duration)) + 'c' }}</td>
                         <td>{{ video.created_at }}</td>
-                        <td><button type="button" class="btn btn-danger">Удалить ролик</button></td>
+                        <td><button type="button" class="btn btn-danger" @click="deleteVideo(video.id)">Удалить ролик</button></td>
                     </tr>
                 </tbody>
             </table>
