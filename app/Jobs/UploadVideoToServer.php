@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Video;
+use App\Pipelines\Video\ChangeStatusUpload;
 use App\Pipelines\Video\ConvertToMP4;
 use App\Pipelines\Video\GetDurationVideo;
 use App\Pipelines\Video\GetSizesVideos;
@@ -43,6 +44,7 @@ class UploadVideoToServer implements ShouldQueue
         GetDurationVideo::class,
         GetSizesVideos::class,
         RemoveTmpFiles::class,
+        ChangeStatusUpload::class,
     ];
 
     /**
@@ -62,6 +64,7 @@ class UploadVideoToServer implements ShouldQueue
         $video = Video::create([
             'title' => $this->filename,
             'settings->tmp_path' => $this->path,
+            'settings->upload' => false,
         ]);
 
         try {
