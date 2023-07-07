@@ -100,18 +100,13 @@ export default {
                     })
                     .catch(err => {
                         this.toast.error('Произошла ошибка при загрузке.');
-                        console.log(err.response.data.message);
-                        // if (err.response.status === 422) {
-                        //     this.errors.fromResponse(err);
-                        // }
-                        // this.$toast.error({title: 'Не удалось сохранить видео', message: err.response.data.message});
+                        this.closeModal();
                     })
                     .finally(() => this.isBusy = false);
             }
         },
         uploadFile() {
             this.file = this.$refs.file.files[0];
-            console.log(this.file);
         },
         closeModal(){
             this.$emit('close');
