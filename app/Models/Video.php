@@ -12,6 +12,7 @@ class Video extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'settings' => 'array',
+        'settings'   => 'array',
+        'created_at' => 'datetime:Y-m-d H:i'
     ];
 }

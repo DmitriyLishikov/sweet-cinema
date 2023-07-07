@@ -27,6 +27,10 @@ export default {
             axios.get('/api/videos', {params:{page: page}}).then(response => {
                 this.response = response.data;
                 this.videos = response.data.data;
+                console.log(response);
+
+                console.log(response.data);
+
                 console.log(this.videos);
             })
                 .catch(e => {
@@ -38,6 +42,9 @@ export default {
         //     Echo.private('App.Orders')
         //         .listen('.Created',event=> this.orders.unshift(event.order));
         // },
+        roundUp(duration){
+            return (duration % 1) === 0 ? duration.toFixed(0) : duration.toFixed(2);
+        }
     },
 }
 
@@ -57,6 +64,7 @@ export default {
                     <tr>
                         <th scope="col">Название</th>
                         <th scope="col">Превью</th>
+                        <th scope="col">Ссылки</th>
                         <th scope="col">Размер</th>
                         <th scope="col">Длительность</th>
                         <th scope="col">Дата загрузки</th>
@@ -64,13 +72,28 @@ export default {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="video in videos" :key="video.id">
-                        <td>{{ video.id }}</td>
+                    <tr v-for="video in videos" :key="video.id" class="">
                         <td>{{ video.title }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <div style="width: 200px; height: 140px;">
+                                <img :src="video.settings.preview" class="img-thumbnail">
+                            </div>
+                        </td>
+                        <td>
+                            <ul class="p-0">
+                                <li class="list-unstyled"><a :href="video.settings.path_size_1080">Разрешение 1920x1080</a></li>
+                                <li class="list-unstyled"><a :href="video.settings.path_size_480">Разрешение 854 x 480</a></li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul class="p-0">
+                                <li class="list-unstyled">{{ video.settings.size_file_1080 }}</li>
+                                <li class="list-unstyled">{{ video.settings.size_file_480 }}</li>
+                            </ul>
+                        </td>
+                        <td>{{ roundUp(Number(video.settings.duration)) + 'c' }}</td>
+                        <td>{{ video.created_at }}</td>
+                        <td><button type="button" class="btn btn-danger">Удалить ролик</button></td>
                     </tr>
                 </tbody>
             </table>

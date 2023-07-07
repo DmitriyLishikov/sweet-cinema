@@ -84,16 +84,16 @@ export default {
         },
         hasNextPage() {
             if (this.response !== null){
-                if(this.response.links !== undefined)
-                    return this.response.links.next !== null;
+                if(this.response.data.next_page_url !== undefined)
+                    return this.response.data.next_page_url !== null;
                 return this.response.next_page_url !== null;
             }
             return false;
         },
         hasPreviousPage() {
             if (this.response !== null){
-                if(this.response.links !== undefined)
-                    return this.response.links.prev !== null;
+                if(this.response.data.prev_page_url !== undefined)
+                    return this.response.data.prev_page_url !== null;
                 return this.response.prev_page_url !== null;
             }
             return false;
