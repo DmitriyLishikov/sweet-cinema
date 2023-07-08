@@ -14,6 +14,7 @@ export default {
         response: [],
         showModal: false,
         toast: useToast(),
+        siteURL: window.location.origin,
     }),
     computed:{
         hasVideos(){
@@ -85,7 +86,7 @@ export default {
                         <td>{{ video.title }}</td>
                         <td>
                             <div style="width: 200px; height: 140px;">
-                                <img :src="video.settings.preview" class="img-thumbnail">
+                                <img :src="'/storage/' +video.settings.preview" class="img-thumbnail">
                             </div>
                         </td>
                         <td>
