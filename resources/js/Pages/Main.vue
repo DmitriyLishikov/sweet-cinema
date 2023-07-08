@@ -25,10 +25,11 @@ export default {
         this.listen();
     },
     methods:{
-        load(page = 1){
+        load(page = 10){
             axios.get('/api/videos', {params:{page: page}}).then(response => {
                 this.response = response.data;
                 this.videos = response.data.data;
+                console.log(this.response);
             })
                 .catch(e => {
                     console.log('error load');
@@ -66,7 +67,7 @@ export default {
             </div>
         </div>
 
-        <div v-if="hasVideos">
+        <div v-if="hasVideos" class="overflow-x-auto">
             <table class="table mt-5">
                 <thead>
                     <tr>

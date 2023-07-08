@@ -27,27 +27,6 @@
                     &leftarrow; Предыдущая
                 </a>
             </div>
-            <div>
-                <ul class="list-reset d-flex m-0 p-0">
-                    <li
-                        v-for="page in pages"
-                        :class="{ 'text-red-dark font-semibold' : page===currentPage}"
-                        class="font-medium inline-block mx-1 cursor-pointer list-unstyled"
-                        @click.prevent="setPage(page)"
-                        v-text="page"
-                    ></li>
-                    <li v-if="currentPage !== lastPage" class="list-unstyled">
-                        ...
-                    </li>
-                    <li
-                        v-if="currentPage !== lastPage"
-                        :class="{ 'text-red-dark font-semibold' : page===currentPage}"
-                        class="font-medium inline-block mx-1 cursor-pointer list-unstyled"
-                        @click.prevent="setPage(lastPage)"
-                        v-text="lastPage"
-                    ></li>
-                </ul>
-            </div>
             <div
                 v-if="hasNextPage"
                 class="mx-2"
@@ -75,7 +54,7 @@ export default {
     },
     data(){
         return{
-            page: 1,
+            page: 10,
         };
     },
     computed: {
@@ -110,24 +89,6 @@ export default {
             }
             return this.response.last_page;
         },
-        metaFrom() {
-            if(this.response.meta !== undefined){
-                return this.response.meta.from;
-            }
-            return this.response.from;
-        },
-        metaTo() {
-            if(this.response.meta !== undefined){
-                return this.response.meta.to;
-            }
-            return this.response.to;
-        },
-        metaTotal() {
-            if(this.response.meta !== undefined){
-                return this.response.meta.total;
-            }
-            return this.response.total;
-        },
         pages() {
             if(this.response.meta !== undefined) {
                 let leftOffset = this.response.meta.current_page - 3,
@@ -158,13 +119,10 @@ export default {
     },
     methods: {
         previous() {
-            this.page -= 1;
+            this.page -= 10;
         },
         next() {
-            this.page += 1;
-        },
-        setPage(number) {
-            this.page = number;
+            this.page += 10;
         },
         load() {
             this.$emit('load', this.page);
