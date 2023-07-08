@@ -22,28 +22,24 @@ export default {
     },
     created() {
         this.load();
-        // this.listen();
+        this.listen();
     },
     methods:{
         load(page = 1){
             axios.get('/api/videos', {params:{page: page}}).then(response => {
                 this.response = response.data;
                 this.videos = response.data.data;
-                console.log(response);
-
-                console.log(response.data);
-
-                console.log(this.videos);
             })
                 .catch(e => {
-                    // this.$toast.error({title: 'Не удалось загрузить заказы.', message: e.response.data.message});
                     console.log('error load');
                 });
         },
-        // listen(){
-        //     Echo.private('App.Orders')
-        //         .listen('.Created',event=> this.orders.unshift(event.order));
-        // },
+        listen(){
+            Echo.channel('video.create')
+                .listen('CreateVideo', (e) => {
+                    this.toast.success('Видео успешно загружено на сервер.');
+                });
+        },
         roundUp(duration){
             return (duration % 1) === 0 ? duration.toFixed(0) : duration.toFixed(2);
         },

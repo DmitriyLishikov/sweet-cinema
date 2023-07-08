@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Events\CreateVideo;
+use App\Events\Leads\LeadSentToCloser;
 use App\Models\Video;
 use App\Pipelines\Video\ChangeStatusUpload;
 use App\Pipelines\Video\ConvertToMP4;
@@ -72,6 +74,9 @@ class UploadVideoToServer implements ShouldQueue
                 ->send($video)
                 ->through($this->pipes)
                 ->thenReturn();
+
+            event(new CreateVideo());
+
         }catch (Throwable $exception){
             Log::error($exception->getMessage());
             $video->delete();
