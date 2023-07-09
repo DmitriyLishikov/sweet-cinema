@@ -3,6 +3,7 @@
 namespace App\Pipelines\Video;
 
 use App\Models\Video;
+use App\Services\FFMpegService;
 use Closure;
 use FFMpeg\FFMpeg;
 use FFMpeg\Coordinate\TimeCode;
@@ -20,8 +21,7 @@ class MakePreview implements VideoUploadProcessingPipe
     {
         $pathPreview = storage_path('/app/public/archive/' . $video->id . '/' . $video->title .'.jpg');
 
-        $ffmpeg = FFMpeg::create();
-        $videoConvert = $ffmpeg->open(storage_path('/app/public/' . $video->settings['path_size_480']));
+        $videoConvert = FFMpegService::make()->open(storage_path('/app/public/' . $video->settings['path_size_480']));
         $frame = $videoConvert->frame(TimeCode::fromSeconds(1));
         $frame->save($pathPreview);
 

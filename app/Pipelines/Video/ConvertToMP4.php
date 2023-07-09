@@ -3,8 +3,8 @@
 namespace App\Pipelines\Video;
 
 use App\Models\Video;
+use App\Services\FFMpegService;
 use Closure;
-use FFMpeg\FFMpeg;
 use FFMpeg\Format\Video\X264;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,8 +24,7 @@ class ConvertToMP4 implements VideoUploadProcessingPipe
             }
 
             $pathConvertVideo = storage_path('/app/public/convert/' . $video->title .'.mp4');
-            $ffmpeg = FFMpeg::create();
-            $videoConvert = $ffmpeg->open(storage_path('/app/public/' . $video->settings['tmp_path']));
+            $videoConvert = FFMpegService::make()->open(storage_path('/app/public/' . $video->settings['tmp_path']));
             $format = new X264();
             $format->setAudioCodec("libmp3lame");
             $videoConvert->save($format, $pathConvertVideo);

@@ -3,6 +3,7 @@
 namespace App\Pipelines\Video;
 
 use App\Models\Video;
+use App\Services\FFMpegService;
 use Closure;
 use FFMpeg\FFMpeg;
 use FFMpeg\Format\Video\X264;
@@ -29,8 +30,7 @@ class ResizeTo480 implements VideoUploadProcessingPipe
 
         $pathConvertVideo = storage_path('/app/public/archive/' . $video->id . '/' . $video->title .'_480.mp4');
 
-        $ffmpeg = FFMpeg::create();
-        $videoConvert = $ffmpeg->open(storage_path('/app/public/' . $pathResizeVideo));
+        $videoConvert = FFMpegService::make()->open(storage_path('/app/public/' . $pathResizeVideo));
         $videoConvert->filters()->resize(new Dimension(854, 480), ResizeFilter::RESIZEMODE_INSET, true)->synchronize();
         $videoConvert->save(new X264(), $pathConvertVideo);
 
