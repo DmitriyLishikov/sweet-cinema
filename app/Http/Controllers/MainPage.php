@@ -9,11 +9,11 @@ use Inertia\Inertia;
 class MainPage extends Controller
 {
 
-
+    /**
+     * @return \Inertia\Response
+     */
     public function __invoke(){
-        return Inertia::render('Main', [
-            'videos' => Video::orderBy('id')->cursorPaginate(10)
-        ]);
+        return Inertia::render('Main');
     }
 
 }

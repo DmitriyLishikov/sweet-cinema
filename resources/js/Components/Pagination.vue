@@ -3,17 +3,6 @@
         v-if="shouldPaginate"
         class="w-full mt-12 d-flex flex-row justify-between"
     >
-        <div>
-            Страница
-            <span
-                class="font-semibold"
-                v-text="currentPage"
-            ></span> из
-            <span
-                class="font-semibold"
-                v-text="lastPage"
-            ></span>
-        </div>
         <div class="d-flex flex-row text-lg justify-around">
             <div
                 v-if="hasPreviousPage"
@@ -76,18 +65,6 @@ export default {
                 return this.response.prev_page_url !== null;
             }
             return false;
-        },
-        currentPage(){
-            if(this.response.meta !== undefined){
-                return this.response.meta.current_page;
-            }
-            return this.response.current_page;
-        },
-        lastPage() {
-            if(this.response.meta !== undefined){
-                return this.response.meta.last_page;
-            }
-            return this.response.last_page;
         },
         pages() {
             if(this.response.meta !== undefined) {

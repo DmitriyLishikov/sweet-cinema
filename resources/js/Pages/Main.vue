@@ -14,7 +14,6 @@ export default {
         response: [],
         showModal: false,
         toast: useToast(),
-        siteURL: window.location.origin,
     }),
     computed:{
         hasVideos(){
@@ -30,10 +29,9 @@ export default {
             axios.get('/api/videos', {params:{page: page}}).then(response => {
                 this.response = response.data;
                 this.videos = response.data.data;
-                console.log(this.response);
             })
                 .catch(e => {
-                    console.log('error load');
+                    this.toast.error('Не удается загрузить данные.');
                 });
         },
         listen(){
@@ -47,12 +45,16 @@ export default {
         },
         deleteVideo(id){
             const formData = new FormData();
-            formData.append('id',id);
+            formData.append('id', id);
             axios.post('/api/delete-video', formData).then(response => {
+                const index = this.videos.findIndex(item => item.id === id);
+                if (index !== -1) {
+                    this.videos.splice(index, 1);
+                }
                 this.toast.success('Видео удалено.');
             })
                 .catch(e => {
-                    this.$toast.error('Произошла ошибка');
+                    this.$toast.error('Произошла ошибка при удалении.');
                 });
         }
     },

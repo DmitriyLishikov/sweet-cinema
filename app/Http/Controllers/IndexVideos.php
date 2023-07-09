@@ -11,7 +11,8 @@ class IndexVideos
      * @param Request $request
      * @return mixed
      */
-    public function __invoke(Request $request){
+    public function __invoke(Request $request): mixed
+    {
         return Video::orderBy('id')
             ->where('settings->upload', true)
             ->cursorPaginate($request->page);
